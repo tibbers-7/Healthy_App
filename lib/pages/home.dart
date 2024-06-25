@@ -7,6 +7,7 @@ import 'package:flutter/painting.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:sample_app/pages/meal.dart';
 
 import '../models/category_model.dart';
 import '../models/diet_model.dart';
@@ -220,48 +221,49 @@ class _HomePageState extends State<HomePage> {
                         ]),
                   ),
                   const SizedBox(height: 15),
-                  GestureDetector(
-                    behavior: HitTestBehavior.translucent,
-                    onTap: () => {
-                      setState((){
-                        diets[index].viewIsSelected=false;
-                      })
-                      
-                    },
-                    child: Container(
-                        height: 40,
-                        width: 120,
-                        decoration: BoxDecoration(
-                          boxShadow:diets[index].viewIsSelected ? [
-                            BoxShadow(
-                              color: const Color(0xff1D1617).withOpacity(0.11),
-                              blurRadius: 10,
-                              spreadRadius: 0.0,
-                            )
-                          ] : [],
-                          borderRadius: BorderRadius.circular(20),
-                          color: const Color(0xff92A3FD),
-                          gradient: LinearGradient(
-                            begin: Alignment.topRight,
-                            end: Alignment.bottomLeft,
-                            colors: [
-                              diets[index].viewIsSelected ? const Color(0xff92A3FD) : Colors.transparent,
-                              diets[index].viewIsSelected ? const Color(0xff9DCEFF) : Colors.transparent,
-                            ],
-                          ),
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.only(top:10),
-                          child: Text(
-                            diets[index].viewIsSelected ? 'View' : '',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              color: diets[index].viewIsSelected ? Colors.white : const Color(0xffC58BF2)
+                  Container(
+                          height: 40,
+                          width: 120,
+                          decoration: BoxDecoration(
+                            boxShadow:diets[index].viewIsSelected ? [
+                              BoxShadow(
+                                color: const Color(0xff1D1617).withOpacity(0.11),
+                                blurRadius: 10,
+                                spreadRadius: 0.0,
+                              )
+                            ] : [],
+                            borderRadius: BorderRadius.circular(20),
+                            color: const Color(0xff92A3FD),
+                            gradient: LinearGradient(
+                              begin: Alignment.topRight,
+                              end: Alignment.bottomLeft,
+                              colors: [
+                                diets[index].viewIsSelected ? const Color(0xff92A3FD) : Colors.transparent,
+                                diets[index].viewIsSelected ? const Color(0xff9DCEFF) : Colors.transparent,
+                              ],
                             ),
                           ),
-                        ),),
+                    child:   ElevatedButton(
+                      clipBehavior: Clip.hardEdge,
+                      style:  ElevatedButton.styleFrom(elevation: 0.0, backgroundColor: Colors.transparent, foregroundColor: Colors.transparent),
+                      onPressed: () => {
+                        setState((){
+                          diets[index].viewIsSelected=false;
+                        }),
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => const MealPage()),)
+                      }, child: Text(
+                              diets[index].viewIsSelected ? 'View' : '',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                color: diets[index].viewIsSelected ? Colors.white : const Color(0xffC58BF2)
+                              ),
+                            )
+                      
+                      
                   )
-                ],
+              )],
               ),
             );
           },
