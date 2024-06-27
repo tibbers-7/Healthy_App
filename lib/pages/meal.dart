@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:sample_app/pages/home.dart';
 
@@ -11,7 +12,7 @@ class MealPage extends StatefulWidget {
 
 class _MealPageState extends State<MealPage> {
   double panelHeight = 500.0; // Initial height of the slideable panel
-  double minPanelHeight = 400; // Minimum height of the slideable panel
+  double minPanelHeight = 460; // Minimum height of the slideable panel
   double maxPanelHeight = double.infinity; // Maximum height of the slideable panel
   @override
   Widget build(BuildContext context) {
@@ -26,8 +27,7 @@ class _MealPageState extends State<MealPage> {
                   height: kToolbarHeight +
                       MediaQuery.of(context)
                           .padding
-                          .top), // Provides space for the app bar
-              // Your other widgets go here
+                          .top),
             ],
           ),
           slideableSection()
@@ -51,21 +51,32 @@ Widget slideableSection() {
           });
         },
         onVerticalDragEnd: (details) {
-          // Optionally, you can add snapping behavior or other logic here
         },
         child: Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(50),
             color: Colors.white
           ),
-          child: const Center(
-            child: Text(
-              'Slideable Section',
-              style: TextStyle(fontSize: 18, color: Colors.white),
-            ),
-          ),
+          child: slideableSectionData()
         ),
       ),
+    );
+  }
+
+  Widget slideableSectionData(){
+    return Column(
+      children: [
+        Container(
+          margin: EdgeInsets.only(top:15),
+          height:5,
+          width: 50,
+          decoration: BoxDecoration(
+            color: Colors.black.withOpacity(0.1),
+            borderRadius: BorderRadius.circular(5)
+          ),
+        )
+      ],
+
     );
   }
 
