@@ -14,4 +14,14 @@ class IngredientValueModel{
   {
     nutritionValue=NutritionModel.getTotalIngredientNutrition(ingredient.nutritionValue,measure.value);
   }
+
+  static List<IngredientValueModel> getBlueberryIngredients(){
+    List<IngredientModel> allIngredients=IngredientModel.getIngredients();
+    List<IngredientValueModel> bpIngredients=[];
+    bpIngredients.add(IngredientValueModel(ingredient: allIngredients[0], measure: MeasureModel(measureType: MeasureType.g, value: 100)));
+    bpIngredients.add(IngredientValueModel(ingredient: allIngredients[1], measure: MeasureModel(measureType: MeasureType.tbsp, value: 3)));
+    bpIngredients.add(IngredientValueModel(ingredient: allIngredients[2], measure: MeasureModel(measureType: MeasureType.tsp, value: 2)));
+    bpIngredients.add(IngredientValueModel(ingredient: allIngredients[3], measure: MeasureModel(measureType: MeasureType.items, value: 2)));
+    return bpIngredients;
+  }
 }

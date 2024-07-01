@@ -121,7 +121,7 @@ class _HomePageState extends State<HomePage> {
                         ),
                       ),
                       Text(
-                        popularDiets[index].level + ' | ' + popularDiets[index].duration + ' | '+ popularDiets[index].calorie,
+                        '${popularDiets[index].level} | ${popularDiets[index].duration} | ${popularDiets[index].calorie}',
                         style: const TextStyle(
                           fontWeight: FontWeight.w400,
                           color:Color(0xff7B6F72),
@@ -159,7 +159,7 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
       const SizedBox(height: 15),
-      Container(
+      SizedBox(
         height: 330,
         child: ListView.separated(
           padding: const EdgeInsets.only(left: 20, right: 20),
@@ -252,7 +252,7 @@ class _HomePageState extends State<HomePage> {
                         }),
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => const MealPage()),)
+                          MaterialPageRoute(builder: (context) =>  MealPage(mealIndex: diets[index].id)),)
                       }, child: Text(
                               diets[index].viewIsSelected ? 'View' : '',
                               textAlign: TextAlign.center,

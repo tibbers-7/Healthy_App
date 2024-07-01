@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 class DietModel{
+  int id;
   String name;
   String iconPath;
   String level;
@@ -10,6 +11,7 @@ class DietModel{
   Color boxColor;
 
   DietModel({
+    required this.id,
     required this.name,
     required this.iconPath,
     required this.level,
@@ -24,8 +26,9 @@ class DietModel{
 
     diets.add(
       DietModel(
-        name:'Honey Pancake',
-        iconPath: 'assets/icons/honey-pancakes.svg', 
+        id:1,
+        name:'Blueberry Pancake',
+        iconPath: 'assets/icons/blueberry-pancake.svg', 
         level: 'Easy', 
         duration: '30mins', 
         calorie: '180kCal', 
@@ -36,6 +39,7 @@ class DietModel{
 
     diets.add(
       DietModel(
+        id:2,
         name:'Canai Bread',
         iconPath: 'assets/icons/canai-bread.svg', 
         level: 'Easy', 

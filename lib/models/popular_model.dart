@@ -22,8 +22,8 @@ class PopularModel{
 
     populars.add(
       PopularModel(
-        name:'Blueberry Pancake',
-        iconPath: 'assets/icons/blueberry-pancake.svg', 
+        name:'Honey Pancake',
+        iconPath: 'assets/icons/honey-pancakes.svg', 
         level: 'Medium', 
         duration: '30mins', 
         calorie: '230kCal', 
