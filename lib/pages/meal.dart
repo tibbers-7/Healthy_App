@@ -10,6 +10,7 @@ import 'package:sample_app/pages/home.dart';
 import 'package:sample_app/utils/gradient_text.dart';
 
 import '../models/nutrition_model.dart';
+import '../utils/read_more.dart';
 
 class MealPage extends StatefulWidget {
   MealPage({super.key, required this.mealIndex});
@@ -135,7 +136,9 @@ class _MealPageState extends State<MealPage> {
                   fontWeight: FontWeight.w500,
                 ),
               ),
-              SizedBox(height: 15,),
+              const SizedBox(
+                height: 15,
+              ),
               SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
                 child: Row(
@@ -153,10 +156,33 @@ class _MealPageState extends State<MealPage> {
                     nutrientContainer('vitamins'),
                     const SizedBox(width: 10),
                     nutrientContainer('minerals'),
-                    
+                    const SizedBox(width: 10),
                   ],
                 ),
-              )
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              const Text(
+                'Descriptions',
+                textAlign: TextAlign.left,
+                style: TextStyle(
+                  fontFamily: 'Poppins',
+                  color: Colors.black,
+                  fontSize: 19,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              Padding(
+                padding: const EdgeInsets.only(right: 10),
+                child: ReadMoreText(
+                  text: meal.description,
+                  maxLines: 5,
+                ),
+              ),
             ],
           ),
         )
@@ -167,7 +193,7 @@ class _MealPageState extends State<MealPage> {
   Container nutrientContainer(String nutrientName) {
     double nutrientValue =
         NutritionModel.getNutrientByName(meal.nutritionValue, nutrientName);
-    if (nutrientValue==0) return Container();
+    if (nutrientValue == 0) return Container();
     String appendText = '';
     if (nutrientName == 'calories') {
       appendText = 'kCal';
@@ -181,35 +207,32 @@ class _MealPageState extends State<MealPage> {
         borderRadius: BorderRadius.all(Radius.circular(20)),
         color: Color.fromARGB(9, 0, 0, 0),
       ),
-        child: IntrinsicWidth(
-          child: Row(
-            children: [
-              const SizedBox(
-                width: 15,
-              ),
-              SvgPicture.asset(
-                'assets/icons/$nutrientName.svg',
-                height: 35,
-                width: 35,
-              ),
-              const SizedBox(
-                width: 5,
-              ),
-              Text(
-                nutrientValue.toStringAsFixed(0),
-                style: const TextStyle(fontSize: 13),
-              ),
-              Text(
-                appendText, 
-                style: const TextStyle(fontSize: 13)),
-              const SizedBox(
-                width: 15,
-              ),
-            ],
-          ),
+      child: IntrinsicWidth(
+        child: Row(
+          children: [
+            const SizedBox(
+              width: 15,
+            ),
+            SvgPicture.asset(
+              'assets/icons/$nutrientName.svg',
+              height: 35,
+              width: 35,
+            ),
+            const SizedBox(
+              width: 5,
+            ),
+            Text(
+              nutrientValue.toStringAsFixed(0),
+              style: const TextStyle(fontSize: 13),
+            ),
+            Text(appendText, style: const TextStyle(fontSize: 13)),
+            const SizedBox(
+              width: 15,
+            ),
+          ],
         ),
-      );
-    
+      ),
+    );
   }
 
   SizedBox pictureContainer() {

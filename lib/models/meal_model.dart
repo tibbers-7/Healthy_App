@@ -35,7 +35,8 @@ class MealModel{
   }
 
   static MealModel getBlueberryPancake(){
-    MealModel meal=MealModel(id:1,name: 'Blueberry Pancake', iconPath: 'assets/icons/blueberry-pancake.svg',author:'James Ruth', description: 'Pancakes are some people\'s favorite breakfast, who doesn\'t like pancakes? Especially with the real honey splash on top of the pancakes, of course everyone loves that! besides being Read More...', type: [MealType.breakfast], ingredients: IngredientValueModel.getBlueberryIngredients(), steps: ['Prepare all of the ingredients that needed','Mix flour, sugar, salt, and baking powder','In a seperate place, mix the eggs and liquid milk until blended','Put the egg and milk mixture into the dry ingredients, Stir untul smooth and smooth','Prepare all of the ingredients that needed']);
+    MealModel meal=MealModel(id:1,name: 'Blueberry Pancake', iconPath: 'assets/icons/blueberry-pancake.svg',author:'James Ruth', description: 'Pancakes are some people\'s favorite breakfast, who doesn\'t like pancakes? Especially with the real honey splash on top of the pancakes, of course everyone loves that! Besides being absolutely delicious, they\'re a great source of proteins! Easy and quick to make, this is a household must, especially if you have children!', type: [MealType.breakfast], ingredients: IngredientValueModel.getBlueberryIngredients(), steps: ['Prepare all of the ingredients that needed','Mix flour, sugar, salt, and baking powder','In a seperate place, mix the eggs and liquid milk until blended','Put the egg and milk mixture into the dry ingredients, Stir untul smooth and smooth','Prepare all of the ingredients that needed']);
     return meal;
   }
+
 }
