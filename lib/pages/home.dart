@@ -52,11 +52,11 @@ class _HomePageState extends State<HomePage> {
       body: ListView(
         children: [
           searchBar(),
-          const SizedBox(height: 40),
+          const SizedBox(height: 25),
           categoriesSection(),
-          const SizedBox(height: 40),
+          const SizedBox(height: 25),
           recommendationSection(),
-          const SizedBox(height: 40),
+          const SizedBox(height: 25),
           popularSection(),
           
         ],

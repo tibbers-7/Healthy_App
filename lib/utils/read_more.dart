@@ -30,7 +30,7 @@ class _ReadMoreTextState extends State<ReadMoreText> {
         children: [
           RichText(
             text: TextSpan(
-              text: tp.text!.toPlainText().substring(0, tp.getOffsetBefore(tp.getPositionForOffset(Offset(tp.width - 40, tp.height)).offset)!) + "... ",
+              text: tp.text!.toPlainText().substring(0, tp.getOffsetBefore(tp.getPositionForOffset(Offset(tp.width - 40, tp.height)).offset)!) ,
               style: const TextStyle(
                 fontFamily: 'Poppins', 
                 fontSize: 14, 
@@ -47,7 +47,7 @@ class _ReadMoreTextState extends State<ReadMoreText> {
                       });
                     },
                     child: const Text(
-                      'Read More',
+                      'Read More...',
                       style: TextStyle(color: Colors.blue),
                     ),
                   ),

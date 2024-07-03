@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:sample_app/models/ingredientValue_model.dart';
+import 'package:sample_app/models/ingredient_model.dart';
 import 'package:sample_app/models/meal_model.dart';
 import 'package:sample_app/pages/home.dart';
 import 'package:sample_app/utils/gradient_text.dart';
@@ -33,7 +35,9 @@ class _MealPageState extends State<MealPage> {
     return Scaffold(
         extendBodyBehindAppBar: true,
         appBar: appBar(),
-        body: Stack(children: [
+        body: Stack(
+          clipBehavior: Clip.none,
+          children: [
           pictureContainer(),
           Column(
             children: [
@@ -46,147 +50,218 @@ class _MealPageState extends State<MealPage> {
   }
 
   Widget slideableSection() {
-    return Positioned(
-      bottom: 0,
-      left: 0,
-      right: 0,
-      height: panelHeight,
-      child: GestureDetector(
-        onVerticalDragUpdate: (details) {
-          setState(() {
-            panelHeight -= details.primaryDelta!;
-            if (panelHeight < minPanelHeight) {
-              panelHeight = minPanelHeight;
-            } else if (panelHeight > maxPanelHeight) {
-              panelHeight = maxPanelHeight;
-            }
-          });
-        },
-        onVerticalDragEnd: (details) {},
-        child: Container(
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(50), color: Colors.white),
-            child: slideableSectionData()),
-      ),
+    return DraggableScrollableSheet(
+      initialChildSize: 0.6,
+      minChildSize: 0.6,
+      maxChildSize: 0.85,
+      builder: (BuildContext context, ScrollController scrollController) {
+        return Container(
+          decoration: const BoxDecoration(
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(50),
+                topRight: Radius.circular(50),
+              ),
+              color: Colors.white),
+          child: SingleChildScrollView(
+            controller: scrollController,
+            child: slideableSectionData(),
+          ),
+        );
+      },
     );
   }
 
   Widget slideableSectionData() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Center(
-          child: Container(
-            margin: EdgeInsets.only(top: 15),
-            height: 5,
-            width: 50,
-            decoration: BoxDecoration(
-                color: Colors.black.withOpacity(0.1),
-                borderRadius: BorderRadius.circular(5)),
+    return SingleChildScrollView(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Center(
+            child: Container(
+              margin: EdgeInsets.only(top: 15),
+              height: 5,
+              width: 50,
+              decoration: BoxDecoration(
+                  color: Colors.black.withOpacity(0.1),
+                  borderRadius: BorderRadius.circular(5)),
+            ),
           ),
-        ),
-        Padding(
-          padding: const EdgeInsets.only(left: 30, top: 30),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                meal.name,
-                textAlign: TextAlign.left,
-                style: const TextStyle(
-                  color: Colors.black,
-                  fontSize: 20,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              Row(
-                children: [
-                  // ignore: prefer_const_constructors
-                  Text(
-                    'by ',
-                    style: const TextStyle(
-                      color: Color.fromARGB(44, 0, 0, 0),
-                    ),
+          Padding(
+            padding: const EdgeInsets.only(left: 30, top: 30),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  meal.name,
+                  textAlign: TextAlign.left,
+                  style: const TextStyle(
+                    color: Colors.black,
+                    fontSize: 20,
+                    fontWeight: FontWeight.w600,
                   ),
-                  GradientText(meal.author,
-                      style: const TextStyle(fontWeight: FontWeight.w100),
-                      gradient: const LinearGradient(
-                        colors: [
-                          Color(0xff9DCEFF),
-                          Color(0xff92A3FD),
-                        ],
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight,
-                      ))
-                ],
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              const Text(
-                'Nutrition',
-                textAlign: TextAlign.left,
-                style: TextStyle(
-                  fontFamily: 'Poppins',
-                  color: Colors.black,
-                  fontSize: 19,
-                  fontWeight: FontWeight.w500,
                 ),
-              ),
-              const SizedBox(
-                height: 15,
-              ),
-              SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: Row(
+                const SizedBox(
+                  height: 10,
+                ),
+                Row(
                   children: [
-                    nutrientContainer('calories'),
-                    const SizedBox(width: 10),
-                    nutrientContainer('fats'),
-                    const SizedBox(width: 10),
-                    nutrientContainer('proteins'),
-                    const SizedBox(width: 10),
-                    nutrientContainer('carbs'),
-                    const SizedBox(width: 10),
-                    nutrientContainer('fibre'),
-                    const SizedBox(width: 10),
-                    nutrientContainer('vitamins'),
-                    const SizedBox(width: 10),
-                    nutrientContainer('minerals'),
-                    const SizedBox(width: 10),
+                    // ignore: prefer_const_constructors
+                    Text(
+                      'by ',
+                      style: const TextStyle(
+                        color: Color.fromARGB(44, 0, 0, 0),
+                      ),
+                    ),
+                    GradientText(meal.author,
+                        style: const TextStyle(fontWeight: FontWeight.w100),
+                        gradient: const LinearGradient(
+                          colors: [
+                            Color(0xff9DCEFF),
+                            Color(0xff92A3FD),
+                          ],
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                        ))
                   ],
                 ),
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              const Text(
-                'Descriptions',
-                textAlign: TextAlign.left,
-                style: TextStyle(
-                  fontFamily: 'Poppins',
-                  color: Colors.black,
-                  fontSize: 19,
-                  fontWeight: FontWeight.w500,
+                const SizedBox(
+                  height: 20,
                 ),
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              Padding(
-                padding: const EdgeInsets.only(right: 10),
-                child: ReadMoreText(
-                  text: meal.description,
-                  maxLines: 5,
+                const Text(
+                  'Nutrition',
+                  textAlign: TextAlign.left,
+                  style: TextStyle(
+                    fontFamily: 'Poppins',
+                    color: Colors.black,
+                    fontSize: 19,
+                    fontWeight: FontWeight.w500,
+                  ),
                 ),
-              ),
-            ],
+                const SizedBox(
+                  height: 15,
+                ),
+                SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Row(
+                    children: [
+                      nutrientContainer('calories'),
+                      const SizedBox(width: 10),
+                      nutrientContainer('fats'),
+                      const SizedBox(width: 10),
+                      nutrientContainer('proteins'),
+                      const SizedBox(width: 10),
+                      nutrientContainer('carbs'),
+                      const SizedBox(width: 10),
+                      nutrientContainer('fibre'),
+                      const SizedBox(width: 10),
+                      nutrientContainer('vitamins'),
+                      const SizedBox(width: 10),
+                      nutrientContainer('minerals'),
+                      const SizedBox(width: 10),
+                    ],
+                  ),
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                const Text(
+                  'Descriptions',
+                  textAlign: TextAlign.left,
+                  style: TextStyle(
+                    fontFamily: 'Poppins',
+                    color: Colors.black,
+                    fontSize: 19,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(right: 10),
+                  child: ReadMoreText(
+                    text: meal.description,
+                    maxLines: 5,
+                  ),
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                ingredientsSection()
+              ],
+            ),
+          )
+        ],
+      ),
+    );
+  }
+
+  Widget ingredientsSection() {
+    return Column( 
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const Text(
+          'Ingredients',
+          textAlign: TextAlign.left,
+          style: TextStyle(
+            fontFamily: 'Poppins',
+            color: Colors.black,
+            fontSize: 19,
+            fontWeight: FontWeight.w500,
+          ),
+        ),
+        const SizedBox(height:10),
+        SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: Row(
+             children: meal.ingredients.map((ingredient) {
+                return ingredientContainer(ingredient);
+              }).toList(),
           ),
         )
       ],
+    );
+  }
+
+  Widget ingredientContainer(IngredientValueModel ingredientValue ){
+    IngredientModel ingredient=ingredientValue.ingredient;
+    return Padding(
+      padding: const EdgeInsets.only(right: 10),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            height:100,
+            width: 100,
+            decoration: const BoxDecoration(
+              borderRadius: BorderRadius.all(Radius.circular(20)),
+              color: Color.fromARGB(9, 0, 0, 0),
+            ),
+            child: Center(
+              
+              child: SvgPicture.asset(
+                ingredient.iconPath,
+                height: 50,
+                width: 50,
+                ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(left:2),
+            child: Text(
+              ingredient.name),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(left:2),
+            child: Text(
+              "${ingredientValue.measure.value.toInt()} ${ingredientValue.measure.measureType.toString().split('.').last}",
+              style: const TextStyle(
+                color: Color.fromARGB(104, 0, 0, 0),
+                fontSize: 13,
+              ) ,),
+          ),
+        ],
+      ),
     );
   }
 
