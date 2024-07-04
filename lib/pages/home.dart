@@ -1,11 +1,6 @@
 
-import 'dart:ui';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/painting.dart';
-import 'package:flutter/rendering.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:sample_app/pages/meal.dart';
 
@@ -14,7 +9,7 @@ import '../models/diet_model.dart';
 import '../models/popular_model.dart';
 
 class HomePage extends StatefulWidget {
-  HomePage({super.key});
+  const HomePage({super.key});
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -288,7 +283,7 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
         const SizedBox(height: 15),
-        Container(
+        SizedBox(
           height: 120,
           //color: Colors.green,
           child: ListView.separated(
@@ -362,7 +357,7 @@ class _HomePageState extends State<HomePage> {
               padding: const EdgeInsets.all(12),
               child: SvgPicture.asset('assets/icons/Search.svg'),
             ),
-            suffixIcon: Container(
+            suffixIcon: SizedBox(
               width: 100,
               child: IntrinsicHeight(
                 child: Row(

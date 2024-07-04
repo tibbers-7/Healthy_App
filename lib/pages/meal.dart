@@ -1,9 +1,6 @@
-import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:sample_app/models/ingredientValue_model.dart';
 import 'package:sample_app/models/ingredient_model.dart';
@@ -12,6 +9,7 @@ import 'package:sample_app/pages/home.dart';
 import 'package:sample_app/utils/gradient_text.dart';
 
 import '../models/nutrition_model.dart';
+import '../utils/dashed_line.dart';
 import '../utils/read_more.dart';
 
 class MealPage extends StatefulWidget {
@@ -35,9 +33,7 @@ class _MealPageState extends State<MealPage> {
     return Scaffold(
         extendBodyBehindAppBar: true,
         appBar: appBar(),
-        body: Stack(
-          clipBehavior: Clip.none,
-          children: [
+        body: Stack(clipBehavior: Clip.none, children: [
           pictureContainer(),
           Column(
             children: [
@@ -53,7 +49,6 @@ class _MealPageState extends State<MealPage> {
     return DraggableScrollableSheet(
       initialChildSize: 0.6,
       minChildSize: 0.6,
-      maxChildSize: 0.85,
       builder: (BuildContext context, ScrollController scrollController) {
         return Container(
           decoration: const BoxDecoration(
@@ -78,7 +73,7 @@ class _MealPageState extends State<MealPage> {
         children: [
           Center(
             child: Container(
-              margin: EdgeInsets.only(top: 15),
+              margin: const EdgeInsets.only(top: 15),
               height: 5,
               width: 50,
               decoration: BoxDecoration(
@@ -187,7 +182,11 @@ class _MealPageState extends State<MealPage> {
                 const SizedBox(
                   height: 20,
                 ),
-                ingredientsSection()
+                ingredientsSection(),
+                const SizedBox(
+                  height: 20,
+                ),
+                stepSection()
               ],
             ),
           )
@@ -196,8 +195,125 @@ class _MealPageState extends State<MealPage> {
     );
   }
 
+  Widget stepSection() {
+    int stepIndex = 0;
+
+    return Column(
+      children: [
+        Row(
+          children: [
+            const Text(
+              'Step by Step',
+              textAlign: TextAlign.left,
+              style: TextStyle(
+                fontFamily: 'Poppins',
+                color: Colors.black,
+                fontSize: 19,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.only(right: 20),
+                child: Text(
+                  "${meal.steps.length} steps",
+                  textAlign: TextAlign.right,
+                  style: const TextStyle(color: Color.fromARGB(120, 0, 0, 0)),
+                ),
+              ),
+            ),
+          ],
+        ),
+         
+
+        Padding(
+          padding: const EdgeInsets.only(top:20),
+          child: Column(
+            children: meal.steps.map((step) {
+              stepIndex++;
+              return stepContainer(step, stepIndex,meal.steps.length);
+            }).toList(),
+          ),
+        ),
+      ],
+    );
+  }
+
+ 
+Widget stepContainer(String step, int stepIndex,int maxStep) {
+  return Padding(
+    padding: const EdgeInsets.symmetric(vertical: 1.0, horizontal: 10),
+    child: Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Expanded(
+          flex: 1,
+          child: Text(
+            stepIndex.toString(),
+            style: const TextStyle(fontSize: 20),
+          ),
+        ),
+        Expanded(
+          flex: 2,
+          child: Column(
+            mainAxisSize: MainAxisSize.min, // Ensures Column takes minimum required height
+            children: [
+              Container(
+                width: 30,
+                height: 30,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  border: Border.all(
+                    color: const Color.fromARGB(70, 0, 0, 0),
+                    width: 2,
+                  ),
+                ),
+                padding: const EdgeInsets.all(6),
+                child: Container(
+                  decoration: const BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: Color.fromARGB(70, 0, 0, 0),
+                  ),
+                ),
+              ),
+              if (stepIndex < maxStep)
+              Flexible(
+                child: CustomPaint(
+                  size: Size(1, 50), // Set a default height for the dashed line
+                  painter: DashedLineVerticalPainter(),
+                ),
+              ),
+            ],
+          ),
+        ),
+        Expanded(
+          flex: 14,
+          child: Padding(
+            padding: const EdgeInsets.only(left: 20),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  "Step $stepIndex",
+                  style: const TextStyle(fontSize: 18),
+                ),
+                Text(
+                  step,
+                  style: const TextStyle(color: Color.fromARGB(75, 0, 0, 0)),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ],
+    ),
+  );
+}
+  
+
   Widget ingredientsSection() {
-    return Column( 
+    return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const Text(
@@ -210,55 +326,54 @@ class _MealPageState extends State<MealPage> {
             fontWeight: FontWeight.w500,
           ),
         ),
-        const SizedBox(height:10),
+        const SizedBox(height: 10),
         SingleChildScrollView(
           scrollDirection: Axis.horizontal,
           child: Row(
-             children: meal.ingredients.map((ingredient) {
-                return ingredientContainer(ingredient);
-              }).toList(),
+            children: meal.ingredients.map((ingredient) {
+              return ingredientContainer(ingredient);
+            }).toList(),
           ),
         )
       ],
     );
   }
 
-  Widget ingredientContainer(IngredientValueModel ingredientValue ){
-    IngredientModel ingredient=ingredientValue.ingredient;
+  Widget ingredientContainer(IngredientValueModel ingredientValue) {
+    IngredientModel ingredient = ingredientValue.ingredient;
     return Padding(
       padding: const EdgeInsets.only(right: 10),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
-            height:100,
+            height: 100,
             width: 100,
             decoration: const BoxDecoration(
               borderRadius: BorderRadius.all(Radius.circular(20)),
               color: Color.fromARGB(9, 0, 0, 0),
             ),
             child: Center(
-              
               child: SvgPicture.asset(
                 ingredient.iconPath,
                 height: 50,
                 width: 50,
-                ),
+              ),
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(left:2),
-            child: Text(
-              ingredient.name),
+            padding: const EdgeInsets.only(left: 2),
+            child: Text(ingredient.name),
           ),
           Padding(
-            padding: const EdgeInsets.only(left:2),
+            padding: const EdgeInsets.only(left: 2),
             child: Text(
               "${ingredientValue.measure.value.toInt()} ${ingredientValue.measure.measureType.toString().split('.').last}",
               style: const TextStyle(
                 color: Color.fromARGB(104, 0, 0, 0),
                 fontSize: 13,
-              ) ,),
+              ),
+            ),
           ),
         ],
       ),
@@ -351,7 +466,7 @@ class _MealPageState extends State<MealPage> {
           onTap: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => HomePage()),
+              MaterialPageRoute(builder: (context) => const HomePage()),
             );
           },
           child: Container(

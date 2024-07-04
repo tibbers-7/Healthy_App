@@ -1,4 +1,3 @@
-import 'package:sample_app/models/ingredient_model.dart';
 
 class NutritionModel{
   double calories; 

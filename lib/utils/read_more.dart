@@ -4,7 +4,7 @@ class ReadMoreText extends StatefulWidget {
   final String text;
   final int maxLines;
 
-  ReadMoreText({required this.text, this.maxLines = 5});
+  const ReadMoreText({super.key, required this.text, this.maxLines = 5});
 
   @override
   _ReadMoreTextState createState() => _ReadMoreTextState();
