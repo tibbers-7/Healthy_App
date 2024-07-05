@@ -1,5 +1,5 @@
 
-class NutritionModel{
+class NutritionEntity{
   double calories; 
   double fats;
   double proteins;
@@ -8,7 +8,7 @@ class NutritionModel{
   double fibre;
   double minerals;
 
-  NutritionModel({
+  NutritionEntity({
     required this.calories,
     required this.fats,
     required this.proteins,
@@ -19,7 +19,7 @@ class NutritionModel{
 
   });
 
-  NutritionModel.empty({
+  NutritionEntity.empty({
     this.calories=0,
     this.carbs=0,
     this.fats=0,
@@ -41,13 +41,14 @@ class NutritionModel{
     };
   }
 
-  static double getNutrientByName(NutritionModel nutrition, String nutrientName){
+  static double getNutrientByName(NutritionEntity nutrition, String nutrientName){
     var map = nutrition.toMap();
     return map[nutrientName];
   }
 
-  static NutritionModel getTotalIngredientNutrition(NutritionModel other,double quantity){
-    return NutritionModel(
+  static NutritionEntity getTotalIngredientNutrition(NutritionEntity? other,double? quantity){
+    if(other==null || quantity==null) return NutritionEntity.empty();
+    return NutritionEntity(
       calories:(other.calories*quantity).round().toDouble(),
       carbs:other.carbs*quantity,
       fats:other.fats*quantity,
@@ -58,8 +59,8 @@ class NutritionModel{
     );
   }
 
-  NutritionModel operator +(NutritionModel other) {
-    return NutritionModel(
+  NutritionEntity operator +(NutritionEntity other) {
+    return NutritionEntity(
       calories: calories + other.calories,
       carbs: carbs + other.carbs,
       fats: fats + other.fats,

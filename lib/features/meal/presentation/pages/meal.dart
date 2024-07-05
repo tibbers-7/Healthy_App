@@ -2,15 +2,15 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:sample_app/models/ingredientValue_model.dart';
-import 'package:sample_app/models/ingredient_model.dart';
-import 'package:sample_app/models/meal_model.dart';
-import 'package:sample_app/pages/home.dart';
-import 'package:sample_app/utils/gradient_text.dart';
+import 'package:healthy_app/features/meal/domain/entities/ingredientValue.dart';
+import 'package:healthy_app/features/meal/domain/entities/ingredient.dart';
+import 'package:healthy_app/features/meal/domain/entities/meal.dart';
+import 'package:healthy_app/pages/home.dart';
+import 'package:healthy_app/core/util/gradient_text.dart';
 
-import '../models/nutrition_model.dart';
-import '../utils/dashed_line.dart';
-import '../utils/read_more.dart';
+import '../../domain/entities/nutrition.dart';
+import '../widgets/dashed_line.dart';
+import '../widgets/read_more.dart';
 
 class MealPage extends StatefulWidget {
   MealPage({super.key, required this.mealIndex});
@@ -26,7 +26,14 @@ class _MealPageState extends State<MealPage> {
   double maxPanelHeight =
       double.infinity; // Maximum height of the slideable panel
 
-  MealModel meal = MealModel.getBlueberryPancake();
+   late MealEntity meal;
+
+  @override
+  void initState() {
+    super.initState();
+    meal = MealEntity.getByIndex(widget.mealIndex);
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -216,7 +223,7 @@ class _MealPageState extends State<MealPage> {
               child: Padding(
                 padding: const EdgeInsets.only(right: 20),
                 child: Text(
-                  "${meal.steps.length} steps",
+                  "${meal.steps?.length} steps",
                   textAlign: TextAlign.right,
                   style: const TextStyle(color: Color.fromARGB(120, 0, 0, 0)),
                 ),
@@ -229,10 +236,10 @@ class _MealPageState extends State<MealPage> {
         Padding(
           padding: const EdgeInsets.only(top:20),
           child: Column(
-            children: meal.steps.map((step) {
+            children: meal.steps!.map((step) {
               stepIndex++;
-              return stepContainer(step, stepIndex,meal.steps.length);
-            }).toList(),
+              return stepContainer(step, stepIndex,meal.steps!.length);
+            }).toList() ?? []
           ),
         ),
       ],
@@ -278,7 +285,7 @@ Widget stepContainer(String step, int stepIndex,int maxStep) {
                 ),
               ),
               if (stepIndex < maxStep)
-              Flexible(
+              IntrinsicHeight(
                 child: CustomPaint(
                   size: Size(1, 50), // Set a default height for the dashed line
                   painter: DashedLineVerticalPainter(),
@@ -339,8 +346,8 @@ Widget stepContainer(String step, int stepIndex,int maxStep) {
     );
   }
 
-  Widget ingredientContainer(IngredientValueModel ingredientValue) {
-    IngredientModel ingredient = ingredientValue.ingredient;
+  Widget ingredientContainer(IngredientValueEntity ingredientValue) {
+    IngredientEntity ingredient = ingredientValue.ingredient;
     return Padding(
       padding: const EdgeInsets.only(right: 10),
       child: Column(
@@ -382,7 +389,7 @@ Widget stepContainer(String step, int stepIndex,int maxStep) {
 
   Container nutrientContainer(String nutrientName) {
     double nutrientValue =
-        NutritionModel.getNutrientByName(meal.nutritionValue, nutrientName);
+        NutritionEntity.getNutrientByName(meal.nutritionValue, nutrientName);
     if (nutrientValue == 0) return Container();
     String appendText = '';
     if (nutrientName == 'calories') {

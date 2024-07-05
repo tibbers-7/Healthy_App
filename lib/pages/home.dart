@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:sample_app/pages/meal.dart';
+import 'package:healthy_app/features/meal/presentation/pages/meal.dart';
 
 import '../models/category_model.dart';
 import '../models/diet_model.dart';
@@ -175,7 +175,7 @@ class _HomePageState extends State<HomePage> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   SvgPicture.asset(
-                    'assets/icons/pancakes.svg',
+                    diets[index].iconPath,
                     height: 100,
                     width: 100,
                   ),

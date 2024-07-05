@@ -1,7 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:sample_app/pages/home.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:healthy_app/features/meal/presentation/bloc/article/remote/remote_article_bloc.dart';
+import 'package:healthy_app/features/meal/presentation/bloc/article/remote/remote_article_event.dart';
+import 'package:healthy_app/features/meal/presentation/pages/articles/articles.dart';
+import 'package:healthy_app/injection_container.dart';
+import 'package:healthy_app/pages/home.dart';
 
-void main() {
+Future<void> main() async {
+  await initializeDependencies();
   runApp(const MyApp());
 }
 
@@ -11,10 +17,13 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(fontFamily: 'Poppins'),
-      home:  const HomePage(),
+    return BlocProvider<RemoteArticleBloc>(
+      create: (context) =>sl<RemoteArticleBloc>()..add(const GetArticles()),
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(fontFamily: 'Poppins'),
+        home:  const Articles(),
+      ),
     );
   }
 }
