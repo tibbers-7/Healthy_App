@@ -33,7 +33,7 @@ class ArticleRepositoryImpl implements ArticleRepository{
       );
       
     }
-    } on DioException catch(e){
+    } on DioError catch(e){
       return DataFailed(e);
     }
   }

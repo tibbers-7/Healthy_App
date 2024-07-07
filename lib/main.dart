@@ -4,9 +4,9 @@ import 'package:healthy_app/features/meal/presentation/bloc/article/remote/remot
 import 'package:healthy_app/features/meal/presentation/bloc/article/remote/remote_article_event.dart';
 import 'package:healthy_app/features/meal/presentation/pages/articles/articles.dart';
 import 'package:healthy_app/injection_container.dart';
-import 'package:healthy_app/pages/home.dart';
 
 Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   await initializeDependencies();
   runApp(const MyApp());
 }

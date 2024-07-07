@@ -10,5 +10,16 @@ class MeasureModel extends MeasureEntity{
     );
   }
 
+  
+  factory MeasureModel.fromEntity(MeasureEntity entity){
+    return MeasureModel(measureType: entity.measureType, value: entity.value);
+  }
+
+  Map<String, dynamic> toJson() => {
+        'measureType':measureType,
+        'value':value
+      };
+
+
 
 }

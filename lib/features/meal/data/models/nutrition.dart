@@ -23,4 +23,27 @@ class NutritionModel extends NutritionEntity {
     );
   }
 
+  Map<String, dynamic> toJson() => {
+        'calories': calories,
+        'fats':fats,
+        'proteins':proteins,
+        'carbs':carbs,
+        'vitamins':vitamins,
+        'fibre':fibre,
+        'minerals':minerals
+      };
+
+  
+  factory NutritionModel.fromEntity(NutritionEntity entity){
+    return NutritionModel(
+      calories: entity.calories, 
+      fats: entity.fats, 
+      proteins: entity.proteins, 
+      carbs: entity.carbs, 
+      vitamins: entity.vitamins, 
+      fibre: entity.fibre, 
+      minerals: entity.minerals);
+      
+  }
+
 }

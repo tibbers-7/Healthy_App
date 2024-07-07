@@ -14,6 +14,19 @@ class IngredientEntity extends Equatable{
     required this.iconPath
   });
 
+  NutritionEntity getTotalIngredientNutrition(double? quantity){
+    if(nutritionValue==null || quantity==null) return NutritionEntity.empty();
+    return NutritionEntity(
+      calories: (nutritionValue!.calories*quantity).round().toDouble(),
+      carbs:nutritionValue!.carbs*quantity,
+      fats:nutritionValue!.fats*quantity,
+      fibre:nutritionValue!.fibre*quantity,
+      minerals:nutritionValue!.minerals*quantity,
+      proteins:(nutritionValue!.proteins*quantity).round().toDouble(),
+      vitamins:nutritionValue!.vitamins*quantity
+    );
+  }
+
   static List<IngredientEntity> getIngredients(){
     List<IngredientEntity> ingredients=[];
 

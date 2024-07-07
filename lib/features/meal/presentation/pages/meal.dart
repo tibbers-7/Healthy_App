@@ -1,11 +1,10 @@
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:healthy_app/features/meal/domain/entities/ingredientValue.dart';
+import 'package:healthy_app/features/meal/domain/entities/ingredient_value.dart';
 import 'package:healthy_app/features/meal/domain/entities/ingredient.dart';
 import 'package:healthy_app/features/meal/domain/entities/meal.dart';
-import 'package:healthy_app/pages/home.dart';
+//import 'package:healthy_app/pages/home.dart';
 import 'package:healthy_app/core/util/gradient_text.dart';
 
 import '../../domain/entities/nutrition.dart';
@@ -13,9 +12,9 @@ import '../widgets/dashed_line.dart';
 import '../widgets/read_more.dart';
 
 class MealPage extends StatefulWidget {
-  MealPage({super.key, required this.mealIndex});
+  MealPage({super.key, required this.meal});
 
-  int mealIndex;
+  MealEntity meal;
   @override
   State<MealPage> createState() => _MealPageState();
 }
@@ -31,12 +30,12 @@ class _MealPageState extends State<MealPage> {
   @override
   void initState() {
     super.initState();
-    meal = MealEntity.getByIndex(widget.mealIndex);
   }
 
 
   @override
   Widget build(BuildContext context) {
+    
     return Scaffold(
         extendBodyBehindAppBar: true,
         appBar: appBar(),
@@ -94,7 +93,7 @@ class _MealPageState extends State<MealPage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  meal.name,
+                  meal.name ?? '',
                   textAlign: TextAlign.left,
                   style: const TextStyle(
                     color: Colors.black,
@@ -114,7 +113,7 @@ class _MealPageState extends State<MealPage> {
                         color: Color.fromARGB(44, 0, 0, 0),
                       ),
                     ),
-                    GradientText(meal.author,
+                    GradientText(meal.author??'',
                         style: const TextStyle(fontWeight: FontWeight.w100),
                         gradient: const LinearGradient(
                           colors: [
@@ -182,7 +181,7 @@ class _MealPageState extends State<MealPage> {
                 Padding(
                   padding: const EdgeInsets.only(right: 10),
                   child: ReadMoreText(
-                    text: meal.description,
+                    text: meal.description??'',
                     maxLines: 5,
                   ),
                 ),
@@ -337,7 +336,7 @@ Widget stepContainer(String step, int stepIndex,int maxStep) {
         SingleChildScrollView(
           scrollDirection: Axis.horizontal,
           child: Row(
-            children: meal.ingredients.map((ingredient) {
+            children: meal.ingredients!.map((ingredient) {
               return ingredientContainer(ingredient);
             }).toList(),
           ),
@@ -347,7 +346,8 @@ Widget stepContainer(String step, int stepIndex,int maxStep) {
   }
 
   Widget ingredientContainer(IngredientValueEntity ingredientValue) {
-    IngredientEntity ingredient = ingredientValue.ingredient;
+    //IngredientEntity ingredient = ingredientValue.ingredientId;
+    IngredientEntity ingredient=const IngredientEntity(id: 1, name: 'Ingredient', nutritionValue:null , iconPath: '');
     return Padding(
       padding: const EdgeInsets.only(right: 10),
       child: Column(
@@ -362,7 +362,7 @@ Widget stepContainer(String step, int stepIndex,int maxStep) {
             ),
             child: Center(
               child: SvgPicture.asset(
-                ingredient.iconPath,
+                ingredient.iconPath??'',
                 height: 50,
                 width: 50,
               ),
@@ -370,12 +370,12 @@ Widget stepContainer(String step, int stepIndex,int maxStep) {
           ),
           Padding(
             padding: const EdgeInsets.only(left: 2),
-            child: Text(ingredient.name),
+            child: Text(ingredient.name??''),
           ),
           Padding(
             padding: const EdgeInsets.only(left: 2),
             child: Text(
-              "${ingredientValue.measure.value.toInt()} ${ingredientValue.measure.measureType.toString().split('.').last}",
+              "${ingredientValue.measure!.value!.toInt()} ${ingredientValue.measure!.measureType.toString().split('.').last}",
               style: const TextStyle(
                 color: Color.fromARGB(104, 0, 0, 0),
                 fontSize: 13,
@@ -454,7 +454,7 @@ Widget stepContainer(String step, int stepIndex,int maxStep) {
               ),
               child: Center(
                 child: SvgPicture.asset(
-                  meal.iconPath,
+                  meal.iconPath??'',
                   height: 200,
                   width: 200,
                   alignment: Alignment.center,
@@ -471,10 +471,10 @@ Widget stepContainer(String step, int stepIndex,int maxStep) {
         elevation: 0.0,
         leading: GestureDetector(
           onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => const HomePage()),
-            );
+            // Navigator.push(
+            //   context,
+            //   MaterialPageRoute(builder: (context) => const HomePage()),
+            // );
           },
           child: Container(
             margin: const EdgeInsets.all(10),

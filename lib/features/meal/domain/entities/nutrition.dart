@@ -41,23 +41,12 @@ class NutritionEntity{
     };
   }
 
-  static double getNutrientByName(NutritionEntity nutrition, String nutrientName){
-    var map = nutrition.toMap();
-    return map[nutrientName];
+  static double getNutrientByName(NutritionEntity? nutrition, String nutrientName){
+    var map = nutrition?.toMap();
+    return map?[nutrientName];
   }
 
-  static NutritionEntity getTotalIngredientNutrition(NutritionEntity? other,double? quantity){
-    if(other==null || quantity==null) return NutritionEntity.empty();
-    return NutritionEntity(
-      calories:(other.calories*quantity).round().toDouble(),
-      carbs:other.carbs*quantity,
-      fats:other.fats*quantity,
-      fibre:other.fibre*quantity,
-      minerals:other.minerals*quantity,
-      proteins:(other.proteins*quantity).round().toDouble(),
-      vitamins:other.vitamins*quantity
-    );
-  }
+  
 
   NutritionEntity operator +(NutritionEntity other) {
     return NutritionEntity(

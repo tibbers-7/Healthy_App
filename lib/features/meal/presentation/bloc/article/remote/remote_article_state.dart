@@ -4,7 +4,7 @@ import 'package:healthy_app/features/meal/domain/entities/article.dart';
 
 abstract class RemoteArticleState extends Equatable {
   final List<ArticleEntity> ? articles;
-  final DioException ? error;
+  final DioError ? error;
 
   const RemoteArticleState({this.articles,this.error});
 
@@ -21,5 +21,5 @@ class RemoteArticlesDone extends RemoteArticleState {
 }
 
 class RemoteArticlesError extends RemoteArticleState {
-  const RemoteArticlesError(DioException error) : super(error: error);
+  const RemoteArticlesError(DioError error) : super(error: error);
 }
